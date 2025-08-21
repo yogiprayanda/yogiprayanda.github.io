@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Portofolio Pribadi - Yogi Prayanda</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --accent: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem; /* Reduced padding on mobile */
+            position: relative;
+            z-index: 2;
+        }
+        
+        .profile-img {
+            width: 120px; /* Smaller on mobile */
+            height: 120px; /* Smaller on mobile */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .logo {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+        
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--dark);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem; /* Reduced padding on mobile */
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            padding: 1.5rem; /* Reduced padding on mobile */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            font-size: 2rem; /* Smaller on mobile */
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem; /* Smaller on mobile */
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem; /* Slightly larger for touch */
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            min-height: 44px; /* Minimum touch target size */
+            min-width: 44px; /* Minimum touch target size */
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .btn:hover {
+            background-color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 0; /* Allow flex item to shrink below 300px */
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem; /* Slightly smaller gap on mobile */
+            margin-top: 1rem;
+        }
+        
+        .skill {
+            background-color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Smaller min width */
+            gap: 1.5rem; /* Smaller gap on mobile */
+            margin-top: 2rem;
+        }
+        
+        .project-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 180px; /* Slightly smaller on mobile */
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 1.2rem; /* Reduced padding on mobile */
+        }
+        
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            max-width: 600px;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            min-height: 44px; /* Minimum touch target size */
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Prevent zoom on iOS when focusing inputs (if desired) */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important; /* Prevent zoom on iOS */
+            }
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem; /* Reduced horizontal padding on mobile */
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+            min-height: 44px; /* Minimum touch target size */
+            min-width: 44px; /* Minimum touch target size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: white;
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.8rem 0;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .header-content, 
+            .nav-container, 
+            main {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        /* Very small devices */
+        @media (max-width: 480px) {
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            section {
+                padding: 1rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .skill {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="https://via.placeholder.com/150" alt="Foto Profil" class="profile-img">
+            <h1>Yogi Prayanda</h1>
+            <p>Web Developer | Designer | Profesi Lain</p>
+            <a href="#contact" class="btn">Hubungi Saya</a>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Portofolio</div>
+            <ul class="nav-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#skills">Keahlian</a></li>
+                <li><a href="#projects">Proyek</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="home">
+            <h2>Selamat Datang</h2>
+            <p>Halo! Saya seorang profesional kreatif yang bersemangat dalam menciptakan solusi digital yang menarik dan fungsional. Dengan pengalaman lebih dari X tahun di industri ini, saya telah membantu berbagai klien mencapai tujuan mereka melalui karya-karya inovatif.</p>
+        </section>
+        
+        <section id="about">
+            <h2>Tentang Saya</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Saya memiliki latar belakang di bidang [bidang keahlian] dengan spesialisasi di [spesialisasi]. Selama karir saya, saya telah mengembangkan berbagai proyek mulai dari [contoh proyek] hingga [contoh proyek lainnya].</p>
+                    <p>Pendidikan formal saya meliputi [gelar pendidikan] dari [nama institusi]. Saya terus mengembangkan diri dengan mempelajari teknologi dan metode terbaru di industri ini.</p>
+                    <a href="#" class="btn">Download CV</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills">
+            <h2>Keahlian</h2>
+            <p>Berikut adalah beberapa kemampuan dan teknologi yang saya kuasai:</p>
+            <div class="skills-container">
+                <span class="skill">HTML5</span>
+                <span class="skill">CSS3</span>
+                <span class="skill">JavaScript</span>
+                <span class="skill">React</span>
+                <span class="skill">Node.js</span>
+                <span class="skill">UI/UX Design</span>
+                <span class="skill">Photoshop</span>
+                <span class="skill">Project Management</span>
+            </div>
+        </section>
+        
+        <section id="projects">
+            <h2>Proyek Terbaru</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Proyek 1" class="project-img">
+                    <div class="project-info">
+                        <h3>Website Perusahaan</h3>
+                        <p>Desain dan pengembangan website responsif untuk perusahaan X dengan fitur e-commerce terintegrasi.</p>
+                        <a href="#" class="btn">Lihat Proyek</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Proyek 2" class="project-img">
+                    <div class="project-info">
+                        <h3>Aplikasi Mobile</h3>
+                        <p>Aplikasi iOS dan Android untuk layanan transportasi dengan fitur pemesanan real-time.</p>
+                        <a href="#" class="btn">Lihat Proyek</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Proyek 3" class="project-img">
+                    <div class="project-info">
+                        <h3>Sistem Manajemen</h3>
+                        <p>Sistem manajemen inventaris berbasis web dengan dashboard analitik.</p>
+                        <a href="#" class="btn">Lihat Proyek</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2>Hubungi Saya</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subjek</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Pesan</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Kirim Pesan</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="social-links">
+            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+            <a href="#" aria-label="GitHub">GitHub</a>
+            <a href="#" aria-label="Instagram">Instagram</a>
+            <a href="#" aria-label="Twitter">Twitter</a>
+        </div>
+        <p>© <span id="year"></span> Yogi Prayanda. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Update tahun di footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+                
+                const headerHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+                
+                // Update URL without scrolling
+                history.pushState(null, null, targetId);
+            });
+        });
+        
+        // Form submission
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Pesan Anda telah terkirim! Saya akan menghubungi Anda segera.');
+                this.reset();
+            });
+        }
+    </script>
+</body>
+</html>
